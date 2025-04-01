@@ -33,6 +33,7 @@ docker run -p 4499:4499 wisecow-app
 Visit http://localhost:4499 or use curl to check for the ASCII cow wisdom output.
 
 ###Step 2: Kubernetes Deployment
+
 Create Manifest Files:
 
 Deployment Manifest (deployment.yaml):
@@ -72,6 +73,7 @@ spec:
 Apply the manifests:
 kubectl apply -f deployment.yaml
 kubectl apply -f service.yaml
+
 3.Verify Deployment:
 Use:
 kubectl get pods
@@ -114,19 +116,19 @@ jobs:
 
 Add secrets like DOCKER_USERNAME, DOCKER_PASSWORD, and KUBECONFIG in the GitHub repository settings.
 
-###Step 4: TLS Implementation
-Generate TLS Certificates:
+###Step 4: TLS Implementation###
 
+Generate TLS Certificates:
 Use OpenSSL:
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls.key -out tls.crt
+
 2.Create Kubernetes Secret:
 kubectl create secret tls wisecow-tls --key=tls.key --cert=tls.crt
 
 3.Update Manifests:
-
 Update the service manifest to use HTTPS and attach the TLS secret.
-4.Verify Secure Communication:
 
+4.Verify Secure Communication:
 Access the app via HTTPS through the LoadBalancer.
 
 Output:
