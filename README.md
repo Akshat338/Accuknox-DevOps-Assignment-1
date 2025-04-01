@@ -32,7 +32,7 @@ docker run -p 4499:4499 wisecow-app
 
 Visit http://localhost:4499 or use curl to check for the ASCII cow wisdom output.
 
-Step 2: Kubernetes Deployment
+#Step 2: Kubernetes Deployment
 Create Manifest Files:
 
 Deployment Manifest (deployment.yaml):
@@ -79,7 +79,7 @@ kubectl get services
 
 Access the app through the external IP of the LoadBalancer service.
 
-Step 3: GitHub Actions for CI/CD
+#Step 3: GitHub Actions for CI/CD
 Create Workflow File (.github/workflows/deploy.yaml):
 name: Build and Deploy
 
@@ -114,7 +114,7 @@ jobs:
 
 Add secrets like DOCKER_USERNAME, DOCKER_PASSWORD, and KUBECONFIG in the GitHub repository settings.
 
-Step 4: TLS Implementation
+#Step 4: TLS Implementation
 Generate TLS Certificates:
 
 Use OpenSSL:
