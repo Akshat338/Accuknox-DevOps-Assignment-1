@@ -1,41 +1,42 @@
 # Wisecow
-Step 1: Dockerization
+# Step 1: Dockerization
+
 Prepare the Dockerfile:
 Dockerfile
-# Use a base image
+## Use a base image
 FROM ubuntu:20.04
 
-# Install prerequisites
+## Install prerequisites
 RUN apt-get update && apt-get install -y fortune-mod cowsay
 
-# Copy the application script
+## Copy the application script
 COPY wisecow.sh /app/wisecow.sh
 
-# Set working directory
+## Set working directory
 WORKDIR /app
 
-# Grant execution permissions for the script
+## Grant execution permissions for the script
 RUN chmod +x wisecow.sh
 
 # Expose the application port
 EXPOSE 4499
 
-# Run the application
+## Run the application
 CMD ["./wisecow.sh"]
 
-# 2.Build the Docker Image:
+## 2.Build the Docker Image:
 
 Run the following commands:
 docker build -t wisecow-app .
 docker run -p 4499:4499 wisecow-app
-# 3.Verify the Image:
+## 3.Verify the Image:
 
 Visit http://localhost:4499 or use curl to check for the ASCII cow wisdom output.
 
 # Step 2: Kubernetes Deployment
 
-1.Create Manifest Files:
-Deployment Manifest (deployment.yaml):
+## 1.Create Manifest Files:
+## Deployment Manifest (deployment.yaml):
 
 apiVersion: apps/v1
 kind: Deployment
@@ -57,7 +58,7 @@ spec:
         ports:
         - containerPort: 4499
         
-Service Manifest (service.yaml):
+## Service Manifest (service.yaml):
 
 apiVersion: v1
 kind: Service
@@ -71,7 +72,7 @@ spec:
   - port: 80
     targetPort: 4499
     
-2.Deploy to Kubernetes:
+## 2.Deploy to Kubernetes:
 
 Apply the manifests:
 kubectl apply -f deployment.yaml
@@ -85,9 +86,9 @@ kubectl get services
 
 Access the app through the external IP of the LoadBalancer service.
 
-###Step 3: GitHub Actions for CI/CD###
+# Step 3: GitHub Actions for CI/CD###
 
-1.Create Workflow File (.github/workflows/deploy.yaml):
+## 1.Create Workflow File (.github/workflows/deploy.yaml):
   name: Build and Deploy
 
 on:
@@ -117,22 +118,22 @@ jobs:
         echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
         kubectl set image deployment/wisecow-app wisecow-app=<your-container-registry>/wisecow-app:${{ github.sha }}
         
-2.Add Repository Secrets:
+## 2.Add Repository Secrets:
 Add secrets like DOCKER_USERNAME, DOCKER_PASSWORD, and KUBECONFIG in the GitHub repository settings.
 
-###Step 4: TLS Implementation###
+# Step 4: TLS Implementation###
 
-1.Generate TLS Certificates:
-Use OpenSSL:
+## 1.Generate TLS Certificates:
+## Use OpenSSL:
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls.key -out tls.crt
 
-2.Create Kubernetes Secret:
+## 2.Create Kubernetes Secret:
 kubectl create secret tls wisecow-tls --key=tls.key --cert=tls.crt
 
-3.Update Manifests:
+## 3.Update Manifests:
 Update the service manifest to use HTTPS and attach the TLS secret.
 
-4.Verify Secure Communication:
+## 4.Verify Secure Communication:
 Access the app via HTTPS through the LoadBalancer.
 
 Output:
