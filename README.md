@@ -78,7 +78,7 @@ Apply the manifests:
 kubectl apply -f deployment.yaml
 kubectl apply -f service.yaml
 
-3.Verify Deployment:
+## 3.Verify Deployment:
 
 Use:
 kubectl get pods
@@ -86,7 +86,7 @@ kubectl get services
 
 Access the app through the external IP of the LoadBalancer service.
 
-# Step 3: GitHub Actions for CI/CD###
+# Step 3: GitHub Actions for CI/CD
 
 ## 1.Create Workflow File (.github/workflows/deploy.yaml):
   name: Build and Deploy
