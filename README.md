@@ -92,37 +92,63 @@ Access the app through the external IP of the LoadBalancer service.
 
 # Step 3: GitHub Actions for CI/CD
 
+
 ## 1.Create Workflow File (.github/workflows/deploy.yaml):
+
   name: Build and Deploy
+  
 
 on:
+
   push:
+  
     branches:
+    
       - main
 
 jobs:
+
   build:
+  
     runs-on: ubuntu-latest
+    
     steps:
+    
     - name: Checkout repository
+    
       uses: actions/checkout@v2
+      
 
     - name: Build and Push Docker Image
+    
       run: |
+      
         docker build -t <your-container-registry>/wisecow-app:${{ github.sha }} .
+        
         echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        
         docker push <your-container-registry>/wisecow-app:${{ github.sha }}
+        
 
   deploy:
+  
     runs-on: ubuntu-latest
+    
     needs: build
+    
     steps:
+    
     - name: Deploy to Kubernetes
+    
       run: |
+      
         echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
+        
         kubectl set image deployment/wisecow-app wisecow-app=<your-container-registry>/wisecow-app:${{ github.sha }}
         
+        
 ## 2.Add Repository Secrets:
+
 Add secrets like DOCKER_USERNAME, DOCKER_PASSWORD, and KUBECONFIG in the GitHub repository settings.
 
 # Step 4: TLS Implementation###
