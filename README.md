@@ -1,5 +1,5 @@
 # Wisecow
-Step 1: Dockerization
+#Step 1: Dockerization
 Prepare the Dockerfile:
 Dockerfile
 # Use a base image
